@@ -57,7 +57,7 @@ def list_tasks(args):
             desc = desc[:37] + "..."
         
         
-        row = f'|{item['id']:^13}| {desc:^41}| {item['status']:^12}|{item['createdAt']:^21}|{item['updatedAt']:^21}|'
+        row = f'|{item['id']:^13}| {desc:^41}|{item['status']:^13}|{item['createdAt']:^21}|{item['updatedAt']:^21}|'
         print(row)
         print(seperator)
 
@@ -78,6 +78,25 @@ def delete_task(task):
     
     print(f'could\'t find task number {task.num}!')
 
+def update_task(task):
+    data = load()
+    
+    for item in data:
+        if item['id'] == task.num:
+
+            if item['isDeleted'] == True:
+                print(f'Task number {task.num} doesn\'t exist or deleted!')
+                return
+            
+            item['description'] = task.desc
+            item['updatedAt'] = str(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+            save(data)
+            print(f'Task number {task.num} updated!')
+            return
+
+    print(f'could\'t find task number {task.num}!')
+
+
 def main():
     parser = argparse.ArgumentParser(description="To-do Lister")
     subparsers = parser.add_subparsers(dest="command")
@@ -94,10 +113,10 @@ def main():
     deleteTask_parser.set_defaults(func=delete_task)
     
     # Update task subparser
-    # updateTask_parser = subparsers.add_parser('update', help="Update a task")
-    # updateTask_parser.add_argument('num', type=int, help="Task number to update")
-    # updateTask_parser.add_argument('desc', type=str, help="New task description")
-    # updateTask_parser.set_defaults(func=update_task)
+    updateTask_parser = subparsers.add_parser('update', help="Update a task")
+    updateTask_parser.add_argument('num', type=int, help="Task number to update")
+    updateTask_parser.add_argument('desc', type=str, help="New task description")
+    updateTask_parser.set_defaults(func=update_task)
 
     # List tasks subparser
     listTasks_parser = subparsers.add_parser('list', help="List tasks")
