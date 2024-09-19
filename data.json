@@ -13,7 +13,7 @@
     "status": "done",
     "createdAt": "2024-09-18 21:29:54",
     "updatedAt": "-",
-    "isDeleted": false
+    "isDeleted": true
   },
   {
     "id": 3,
@@ -21,7 +21,7 @@
     "status": "in-progress",
     "createdAt": "2024-09-18 21:30:49",
     "updatedAt": "-",
-    "isDeleted": false
+    "isDeleted": true
   },
   {
     "id": 4,
@@ -38,5 +38,13 @@
     "createdAt": "2024-09-18 23:45:49",
     "updatedAt": "-",
     "isDeleted": false
+  },
+  {
+    "id": 6,
+    "description": "adding another to the list",
+    "status": "todo",
+    "createdAt": "2024-09-19 07:44:04",
+    "updatedAt": "-",
+    "isDeleted": true
   }
 ]

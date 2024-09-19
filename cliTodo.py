@@ -46,7 +46,7 @@ def list_tasks(args):
 
         status = args.status
 
-        if not status or status == item['status']:
+        if (not status or status == item['status']) and not item['isDeleted']:
             pass
         else:
             continue 
@@ -61,7 +61,22 @@ def list_tasks(args):
         print(row)
         print(seperator)
 
+def delete_task(task):
+    data = load()
 
+    for item in data:
+        if item['id'] == task.num:
+            if item['isDeleted'] == True:
+                print (f'Task number {task.num} doesn\'t exist or already deleted!')
+                return
+
+
+            item['isDeleted'] = True
+            save(data)
+            print(f'Task number {task.num} deleted!')
+            return
+    
+    print(f'could\'t find task number {task.num}!')
 
 def main():
     parser = argparse.ArgumentParser(description="To-do Lister")
@@ -74,15 +89,15 @@ def main():
     addTask_parser.set_defaults(func=add_task)
 
     # Delete task subparser
-    # delete_parser = subparsers.add_parser('delete', help="Delete a task")
-    # delete_parser.add_argument('num', type=int, help="Task number to delete")
-    # delete_parser.set_defaults(func=delete_task)
+    deleteTask_parser = subparsers.add_parser('delete', help="Delete a task")
+    deleteTask_parser.add_argument('num', type=int, help="Task number to delete")
+    deleteTask_parser.set_defaults(func=delete_task)
     
     # Update task subparser
-    # update_parser = subparsers.add_parser('update', help="Update a task")
-    # update_parser.add_argument('num', type=int, help="Task number to update")
-    # update_parser.add_argument('desc', type=str, help="New task description")
-    # update_parser.set_defaults(func=update_task)
+    # updateTask_parser = subparsers.add_parser('update', help="Update a task")
+    # updateTask_parser.add_argument('num', type=int, help="Task number to update")
+    # updateTask_parser.add_argument('desc', type=str, help="New task description")
+    # updateTask_parser.set_defaults(func=update_task)
 
     # List tasks subparser
     listTasks_parser = subparsers.add_parser('list', help="List tasks")
