@@ -4,7 +4,6 @@ import os
 import datetime
 
 JSON_FILE = "data.json"
-STATUS = ['todo', 'in-progress', 'done']
 
 
 def load():
@@ -17,7 +16,7 @@ def save(data):
     with open(JSON_FILE, 'w') as file:
         json.dump(data, file, indent=2)
         
-def add_task(desc):
+def add_task(task):
     data = load()
     try:
         last_num = data[-1]['id']
@@ -25,14 +24,14 @@ def add_task(desc):
         last_num = 0
     
     data.append({'id': last_num + 1,
-                 'description': desc,
-                 'status': 0,
+                 'description': task.desc,
+                 'status': 'todo',
                  'createdAt': str(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')), 
                  'updatedAt': "-",
                  'isDeleted': False})
     save(data)
 
-def list_tasks(status=3):
+def list_tasks(args):
 
     data = load()
     
@@ -45,8 +44,9 @@ def list_tasks(status=3):
 
     for item in data:
 
-        item_status = item['status'] #0, 1, 2
-        if status == item_status or status == 3:
+        status = args.status
+
+        if not status or status == item['status']:
             pass
         else:
             continue 
@@ -57,10 +57,40 @@ def list_tasks(status=3):
             desc = desc[:37] + "..."
         
         
-        row = f'|{item['id']:^13}| {desc:<41}| {STATUS[item_status]:<12}|{item['createdAt']:^21}|{item['updatedAt']:^21}|'
+        row = f'|{item['id']:^13}| {desc:^41}| {item['status']:^12}|{item['createdAt']:^21}|{item['updatedAt']:^21}|'
         print(row)
         print(seperator)
 
 
 
-add_task('Task 3')
+def main():
+    parser = argparse.ArgumentParser(description="To-do Lister")
+    subparsers = parser.add_subparsers(dest="command")
+    subparsers.required = True
+
+    # Add task subparser
+    addTask_parser = subparsers.add_parser('add', help="Add a new task")
+    addTask_parser.add_argument('desc', type=str, help="Task description")
+    addTask_parser.set_defaults(func=add_task)
+
+    # Delete task subparser
+    # delete_parser = subparsers.add_parser('delete', help="Delete a task")
+    # delete_parser.add_argument('num', type=int, help="Task number to delete")
+    # delete_parser.set_defaults(func=delete_task)
+    
+    # Update task subparser
+    # update_parser = subparsers.add_parser('update', help="Update a task")
+    # update_parser.add_argument('num', type=int, help="Task number to update")
+    # update_parser.add_argument('desc', type=str, help="New task description")
+    # update_parser.set_defaults(func=update_task)
+
+    # List tasks subparser
+    listTasks_parser = subparsers.add_parser('list', help="List tasks")
+    listTasks_parser.add_argument('status', nargs='?', choices=['done', 'todo', 'in-progress'], help="Optional status filter")
+    listTasks_parser.set_defaults(func=list_tasks)
+    
+    args = parser.parse_args()
+    args.func(args)
+
+if __name__ == "__main__":
+    main()

@@ -2,7 +2,7 @@
   {
     "id": 1,
     "description": "Task 1",
-    "status": 0,
+    "status": "todo",
     "createdAt": "2024-09-18 21:29:41",
     "updatedAt": "-",
     "isDeleted": false
@@ -10,7 +10,7 @@
   {
     "id": 2,
     "description": "Task 2",
-    "status": 0,
+    "status": "done",
     "createdAt": "2024-09-18 21:29:54",
     "updatedAt": "-",
     "isDeleted": false
@@ -18,8 +18,24 @@
   {
     "id": 3,
     "description": "Task 3",
-    "status": 0,
+    "status": "in-progress",
     "createdAt": "2024-09-18 21:30:49",
+    "updatedAt": "-",
+    "isDeleted": false
+  },
+  {
+    "id": 4,
+    "description": "Finishing this to-do lister!",
+    "status": "todo",
+    "createdAt": "2024-09-18 23:44:06",
+    "updatedAt": "-",
+    "isDeleted": false
+  },
+  {
+    "id": 5,
+    "description": "Simping Mahta",
+    "status": "todo",
+    "createdAt": "2024-09-18 23:45:49",
     "updatedAt": "-",
     "isDeleted": false
   }
