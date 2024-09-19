@@ -5,7 +5,6 @@ import datetime
 
 JSON_FILE = "data.json"
 
-
 def load():
     if  not os.path.exists(JSON_FILE):
         save([])
@@ -96,6 +95,38 @@ def update_task(task):
 
     print(f'could\'t find task number {task.num}!')
 
+def mark_in_progress(task):
+    data = load()
+
+    for item in data:
+        if item['id'] == task.num:
+            if item['isDeleted'] == True:
+                print(f'Task number {task.num} doesn\'t exist or deleted!')
+                return
+            item['status'] = 'in-progress'
+            item['updatedAt'] = str(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+            save(data)
+            print(f'Task number {task.num} updated, now in progress!')
+            return
+
+    print(f'could\'t find task number {task.num}!')
+
+def mark_done(task):
+    data = load()
+
+    for item in data:
+        if item['id'] == task.num:
+            if item['isDeleted'] == True:
+                print(f'Task number {task.num} doesn\'t exist or deleted!')
+                return
+            item['status'] = 'done'
+            item['updatedAt'] = str(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+            save(data)
+            print(f'Task number {task.num} updated, it\'s done! congrats!')
+            return
+
+    print(f'could\'t find task number {task.num}!')
+    pass
 
 def main():
     parser = argparse.ArgumentParser(description="To-do Lister")
@@ -122,6 +153,16 @@ def main():
     listTasks_parser = subparsers.add_parser('list', help="List tasks")
     listTasks_parser.add_argument('status', nargs='?', choices=['done', 'todo', 'in-progress'], help="Optional status filter")
     listTasks_parser.set_defaults(func=list_tasks)
+
+    # mark-in-progress task subparser
+    markInProgress_parser = subparsers.add_parser('mark-in-progress', help="mark a task as in progress")
+    markInProgress_parser.add_argument('num', type=int, help="Task number to update")
+    markInProgress_parser.set_defaults(func=mark_in_progress)
+
+    # mark-done task subparser
+    markDone_parser = subparsers.add_parser('mark-done', help="mark a task done")
+    markDone_parser.add_argument('num', type=int, help="Task number to update")
+    markDone_parser.set_defaults(func=mark_done)
     
     args = parser.parse_args()
     args.func(args)

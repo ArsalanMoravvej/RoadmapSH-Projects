@@ -1,10 +1,10 @@
 [
   {
     "id": 1,
-    "description": "Task 1",
+    "description": "hello tasks",
     "status": "todo",
     "createdAt": "2024-09-18 21:29:41",
-    "updatedAt": "-",
+    "updatedAt": "2024-09-19 13:29:05",
     "isDeleted": false
   },
   {
@@ -26,9 +26,9 @@
   {
     "id": 4,
     "description": "Finishing this to-do lister!",
-    "status": "in-progress",
+    "status": "done",
     "createdAt": "2024-09-18 23:44:06",
-    "updatedAt": "-",
+    "updatedAt": "2024-09-19 13:31:20",
     "isDeleted": false
   },
   {
@@ -61,6 +61,14 @@
     "status": "todo",
     "createdAt": "2024-09-19 13:03:35",
     "updatedAt": "2024-09-19 13:06:38",
+    "isDeleted": true
+  },
+  {
+    "id": 9,
+    "description": "get up",
+    "status": "in-progress",
+    "createdAt": "2024-09-19 13:28:20",
+    "updatedAt": "2024-09-19 13:32:36",
     "isDeleted": false
   }
 ]
