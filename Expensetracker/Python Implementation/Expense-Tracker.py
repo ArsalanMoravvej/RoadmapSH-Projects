@@ -35,6 +35,7 @@ def main():
 
     # Updating command handler
     update_parser = subparsers.add_parser('update', help="Update an Expense")
+    update_parser.add_argument('--id', type=int, required=True, help="Expense Number to Update")
     update_parser.add_argument('--description',type=str, help="Expense Description")
     update_parser.add_argument('--amount', type=float , help="Expense Amount")
     update_parser.set_defaults(func=update_expense)
