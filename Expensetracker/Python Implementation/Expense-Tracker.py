@@ -27,7 +27,7 @@ def main():
 
     #Summarizing command handler
     summary_parser = subparsers.add_parser('summary', help="Summarize Expenses")
-    summary_parser.add_argument('--month', type=int, help="Number of the Month")
+    summary_parser.add_argument('--month', type=int, choices=range(1,13), help="Number of the Month")
     summary_parser.set_defaults(func=summarize_expenses)
 
     #Updating command handler
