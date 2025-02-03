@@ -1,21 +1,9 @@
 import argparse
-
-def add_expense(args):
-    print(args)
-
-def list_expenses(args):
-    print(args)
-
-def summarize_expenses(args):
-    print(args)
-
-def delete_expense(args):
-    print(args)
-
-def update_expense(args):
-    if args.description is None and args.amount is None:
-        raise argparse.ArgumentTypeError("At least one of --description or --amount must be provided.")
-    print(args)
+from commands.add import add_expense
+from commands.list import list_expenses
+from commands.summarize import summarize_expenses
+from commands.update import update_expense
+from commands.delete import delete_expense
 
 def main():
     """
