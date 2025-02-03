@@ -3,6 +3,9 @@ import argparse
 def add_expense(args):
     print(args)
 
+def list_expenses(args):
+    print(args)
+
 def summarize_expenses(args):
     print(args)
 
@@ -26,6 +29,10 @@ def main():
     add_parser.add_argument('--description', required=True,type=str, help="Expense Description")
     add_parser.add_argument('--amount', required=True, type=float , help="Expense Amount")
     add_parser.set_defaults(func=add_expense)
+
+    # List command handler
+    list_parser = subparsers.add_parser('list', help="List All Expenses")
+    list_parser.set_defaults(func=list_expenses)
 
     # Summarizing command handler
     summary_parser = subparsers.add_parser('summary', help="Summarize Expenses")
