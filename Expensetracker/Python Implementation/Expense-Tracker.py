@@ -1,6 +1,9 @@
 import argparse
 
-def add_task(args):
+def add_expense(args):
+    print(args)
+
+def summarize_expenses(args):
     print(args)
 
 def main():
@@ -14,7 +17,13 @@ def main():
     add_parser = subparsers.add_parser('add', help="Add a new Expense")
     add_parser.add_argument('--description', required=True,type=str, help="Expense Description")
     add_parser.add_argument('--amount', required=True, type=float , help="Expense Amount")
-    add_parser.set_defaults(func=add_task)
+    add_parser.set_defaults(func=add_expense)
+
+    #Summarizing command handler
+    summary_parser = subparsers.add_parser('summary', help="Summarize Expenses")
+    summary_parser.add_argument('--month', type=int, help="Summarize By Month Number")
+    summary_parser.set_defaults(func=summarize_expenses)
+
 
     # Parse arguments and call the appropriate function
     args = parser.parse_args()
