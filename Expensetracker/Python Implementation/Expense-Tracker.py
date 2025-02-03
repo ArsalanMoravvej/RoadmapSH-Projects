@@ -11,8 +11,7 @@ def delete_expense(args):
 
 def update_expense(args):
     if args.description is None and args.amount is None:
-        print("Error: At least one of --description or --amount must be provided.")
-        exit(1)
+        raise argparse.ArgumentTypeError("At least one of --description or --amount must be provided.")
     print(args)
 
 def main():
@@ -40,7 +39,7 @@ def main():
     update_parser.add_argument('--amount', type=float , help="Expense Amount")
     update_parser.set_defaults(func=update_expense)
 
-    # Delete task subparser
+    # Delete command handler
     delete_parser = subparsers.add_parser('delete', help="Delete an Expense")
     delete_parser.add_argument('--id', type=int, required=True, help="Expense Number to Delete")
     delete_parser.set_defaults(func=delete_expense)
