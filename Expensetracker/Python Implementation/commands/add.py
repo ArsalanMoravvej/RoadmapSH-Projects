@@ -14,6 +14,6 @@ def add_expense(args):
     result = expenses_collection.insert_one(expense)
     
     if result.acknowledged:
-        print(f"Expense added successfully! ID: {result.inserted_id}")
+        print(f"Expense added successfully! (ID: {result.inserted_id})")
     else:
         print("Error: Expense could not be added.")
