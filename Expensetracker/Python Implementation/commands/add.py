@@ -1,7 +1,6 @@
 from .db import expenses_collection, get_new_id
 from datetime import datetime, timezone
 
-
 def add_expense(args):
     expense = {
         "_id": get_new_id(),
