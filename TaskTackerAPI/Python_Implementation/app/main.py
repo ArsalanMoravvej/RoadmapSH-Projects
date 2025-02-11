@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-
-
+from .database import engine
+from . import models
 
 #TaskTrackerAPI: Exercise app for roadmap.sh
 app = FastAPI()
