@@ -16,5 +16,3 @@ class Settings(BaseSettings):
 
 # Create an instance of Settings
 settings = Settings()
-
-print(settings)
