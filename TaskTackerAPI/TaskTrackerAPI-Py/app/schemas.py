@@ -32,27 +32,27 @@ class Token(BaseModel):
     access_token: str
     token_type: str
 
-# # jwt token data class
-# class TokenData(BaseModel):
-#     id: Optional[str] | Optional[int] = None
+# jwt token data class
+class TokenData(BaseModel):
+    id: Optional[str] | Optional[int] = None
 
-# # task base class
-# class TaskBase(BaseModel):
-#     title:     str
-#     content:   str
-#     status:    int
+# task base class
+class TaskBase(BaseModel):
+    title:     str
+    content:   str
+    status:    int
 
-# # task creation class
-# class TaskCreate(TaskBase):
-#     pass
+# task creation class
+class TaskCreate(TaskBase):
+    pass
 
-# # task response class
-# class TaskResponse(TaskBase):
-#     id:         int
-#     owner_id :  int
-#     owner: UserResponse 
-#     created_at: datetime
+# task response class
+class TaskResponse(TaskBase):
+    id:         int
+    owner_id :  int
+    owner: UserResponse 
+    created_at: datetime
     
-#     class Config:
-#         orm_mod = True
+    class Config:
+        orm_mod = True
 
