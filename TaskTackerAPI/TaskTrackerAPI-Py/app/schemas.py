@@ -39,8 +39,7 @@ class TokenData(BaseModel):
 # task base class
 class TaskBase(BaseModel):
     title:     str
-    content:   str
-    status:    int
+    description:   str
 
 # task creation class
 class TaskCreate(TaskBase):
