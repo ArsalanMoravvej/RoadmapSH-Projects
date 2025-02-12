@@ -22,10 +22,19 @@ class UserResponse(UserBase):
     class Config:
         orm_mod = True
 
-# # user login class
-# class UserLogin(BaseModel):
-#     email:    EmailStr
-#     password: str
+# user login class
+class UserLogin(BaseModel):
+    email:    EmailStr
+    password: str
+
+# jwt token base class
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+# # jwt token data class
+# class TokenData(BaseModel):
+#     id: Optional[str] | Optional[int] = None
 
 # # task base class
 # class TaskBase(BaseModel):
@@ -47,11 +56,3 @@ class UserResponse(UserBase):
 #     class Config:
 #         orm_mod = True
 
-# # jwt token base class
-# class Token(BaseModel):
-#     access_token: str
-#     token_type: str
-
-# # jwt token data class
-# class TokenData(BaseModel):
-#     id: Optional[str] | Optional[int] = None
