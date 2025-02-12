@@ -61,7 +61,7 @@ async def delete_post(id: int,
     
     if task.first().owner_id != current_user.id:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
-                            detail=f"Not authorized to perform requested action of task with ID: {id}.")
+                            detail=f"Not authorized to perform requested action on task with ID: {id}.")
     
     task.delete(synchronize_session=False)
     db.commit()
