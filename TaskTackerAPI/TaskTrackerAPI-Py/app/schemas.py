@@ -1,6 +1,6 @@
 from pydantic import BaseModel, EmailStr, Field, conint
 from datetime import datetime
-from typing import Annotated, Optional
+from typing import Annotated, Optional, List
 
 
 # Define a models for request payload validation and serialization
@@ -54,4 +54,10 @@ class TaskResponse(TaskBase):
     
     class Config:
         orm_mod = True
+
+class PaginatedTaskResponse(BaseModel):
+    data: List[TaskResponse]
+    total: int
+    page: int
+    limit: int
 

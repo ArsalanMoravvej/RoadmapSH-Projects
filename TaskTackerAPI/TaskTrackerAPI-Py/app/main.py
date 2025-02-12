@@ -1,8 +1,6 @@
 from fastapi import FastAPI
 from .routes import user, auth, task
 
-#models.Base.metadata.create_all(bind = engine)
-
 #TaskTrackerAPI: Exercise app for roadmap.sh
 app = FastAPI()
 
@@ -12,9 +10,4 @@ app.include_router(task.router)
 
 @app.get("/")
 async def root():
-    return {"message": "Welcome to the FastAPI application!"}
-
-# Another path example
-@app.get("/anotherpath")
-async def another_path():
-    return {"message": "This is another example path!"}
+    return {"message": "Welcome to the To-Dolister web application!"}
