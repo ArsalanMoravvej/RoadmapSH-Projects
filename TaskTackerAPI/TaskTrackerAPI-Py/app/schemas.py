@@ -7,6 +7,7 @@ from typing import Annotated, Optional
 
 # user schema base class
 class UserBase(BaseModel):
+    name: str
     email:    EmailStr
 
 # user schema creation class
@@ -21,36 +22,36 @@ class UserResponse(UserBase):
     class Config:
         orm_mod = True
 
-# user login class
-class UserLogin(BaseModel):
-    email:    EmailStr
-    password: str
+# # user login class
+# class UserLogin(BaseModel):
+#     email:    EmailStr
+#     password: str
 
-# task base class
-class TaskBase(BaseModel):
-    title:     str
-    content:   str
-    status:    int
+# # task base class
+# class TaskBase(BaseModel):
+#     title:     str
+#     content:   str
+#     status:    int
 
-# task creation class
-class TaskCreate(TaskBase):
-    pass
+# # task creation class
+# class TaskCreate(TaskBase):
+#     pass
 
-# task response class
-class TaskResponse(TaskBase):
-    id:         int
-    owner_id :  int
-    owner: UserResponse 
-    created_at: datetime
+# # task response class
+# class TaskResponse(TaskBase):
+#     id:         int
+#     owner_id :  int
+#     owner: UserResponse 
+#     created_at: datetime
     
-    class Config:
-        orm_mod = True
+#     class Config:
+#         orm_mod = True
 
-# jwt token base class
-class Token(BaseModel):
-    access_token: str
-    token_type: str
+# # jwt token base class
+# class Token(BaseModel):
+#     access_token: str
+#     token_type: str
 
-# jwt token data class
-class TokenData(BaseModel):
-    id: Optional[str] | Optional[int] = None
+# # jwt token data class
+# class TokenData(BaseModel):
+#     id: Optional[str] | Optional[int] = None
