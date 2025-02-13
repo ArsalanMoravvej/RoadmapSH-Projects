@@ -59,7 +59,6 @@ async def create_task(task: schemas.TaskCreate,
                       db:Session = Depends(get_db),
                       current_user: models.User = Depends(oauth2.get_current_user)):
 
-    (print("here"))
     new_task = models.Task(
         **task.model_dump(),
         owner_id=current_user.id)
