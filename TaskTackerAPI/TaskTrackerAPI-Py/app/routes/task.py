@@ -20,14 +20,12 @@ async def get_tasks(db: Session = Depends(get_db),
                     page: int = Query(1, ge=1),
                     search: Optional[str] = "",
                     current_user: models.User = Depends(oauth2.get_current_user)):
-    
-    offset = limit * (page - 1) 
 
     tasks = db.query(models.Task).filter(models.Task.title.contains(search),
                                          models.Task.owner_id == current_user.id)
-
-    total = tasks.count()
-
+    
+    total  = tasks.count()
+    offset = limit * (page - 1) 
     filtered_tasks = tasks.offset(offset).limit(limit).all()
 
     return {
