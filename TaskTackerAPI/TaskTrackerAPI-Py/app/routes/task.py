@@ -21,7 +21,7 @@ async def get_tasks(db: Session = Depends(get_db),
                     search: Optional[str] = "",
                     current_user: models.User = Depends(oauth2.get_current_user)):
 
-    tasks = db.query(models.Task).filter(models.Task.title.contains(search),
+    tasks = db.query(models.Task).filter(models.Task.title.ilike(f"%{search}%"),
                                          models.Task.owner_id == current_user.id)
     
     total  = tasks.count()
