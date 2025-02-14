@@ -93,7 +93,7 @@ class TaskResponse(TaskBase):
     class Config:
         from_attributes = True
 
-class PaginatedTaskResponse(BaseModel):
+class PaginatedTasksResponse(BaseModel):
     data: List[TaskResponse]
     total: int
     page: int

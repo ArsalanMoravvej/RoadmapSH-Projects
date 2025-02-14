@@ -13,7 +13,7 @@ router = APIRouter(
 
 # Retrieve all tasks (Filtered)
 @router.get("/",
-            response_model=schemas.PaginatedTaskResponse
+            response_model=schemas.PaginatedTasksResponse
             )
 async def get_tasks(db: Session = Depends(get_db),
                     limit: int = Query(10, gt=0),
