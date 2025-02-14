@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
+from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Index
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.expression import text
 from sqlalchemy.sql.sqltypes import TIMESTAMP
@@ -7,6 +7,7 @@ from .database import Base
 
 class Task(Base):
     __tablename__ = "tasks"
+    __table_args__ = (Index("idx_tasks_is_deleted", "is_deleted"),)
 
     id               = Column(Integer, primary_key=True, nullable=False)
     title            = Column(String, nullable=False)
@@ -24,6 +25,7 @@ class Task(Base):
 
 class User(Base):
     __tablename__ = "users"
+    __table_args__ = (Index("idx_users_is_deleted", "is_deleted"),)
 
     id               = Column(Integer, primary_key=True, nullable=False)
     name             = Column(String, nullable=False)
