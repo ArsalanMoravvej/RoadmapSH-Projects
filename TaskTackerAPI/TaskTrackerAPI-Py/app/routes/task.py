@@ -75,17 +75,18 @@ async def delete_task(id: int,
                       db:Session = Depends(get_db),
                       current_user: int = Depends(oauth2.get_current_user)):
     
-    task = db.query(models.Task).filter(models.Task.id == id)
+    task_query = db.query(models.Task).filter(models.Task.id == id)
+    task_obj = task_query.first()
     
-    if task.first() is None:
+    if task_obj is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"Task with ID {id} was not found.")
     
-    if task.first().owner_id != current_user.id:
+    if task_obj.owner_id != current_user.id:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
                             detail=f"Not authorized to perform requested action on task with ID: {id}.")
     
-    task.delete(synchronize_session=False)
+    task_query.delete(synchronize_session=False)
     db.commit()
     
     return Response(status_code=status.HTTP_204_NO_CONTENT)
@@ -98,12 +99,13 @@ async def update_task(id: int,
                       current_user: int = Depends(oauth2.get_current_user)):
     
     task_query = db.query(models.Task).filter(models.Task.id == id)
+    task_obj = task_query.first()
 
-    if task_query.first() is None:
+    if task_obj is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f"Task with ID {id} was not found.")
 
-    if task_query.first().owner_id != current_user.id:
+    if task_obj.owner_id != current_user.id:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
                             detail=f"Not authorized to perform requested action on task with ID: {id}.")
 
