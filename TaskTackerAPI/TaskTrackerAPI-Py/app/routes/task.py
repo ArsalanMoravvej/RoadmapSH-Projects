@@ -1,11 +1,37 @@
-from datetime import datetime, timezone
-from fastapi  import Response, status, HTTPException, Depends, APIRouter, Query
+"""
+Task management API routes.
+This module defines the API endpoints for managing tasks, including retrieving,
+creating, updating, and deleting tasks. The routes are defined using FastAPI's
+APIRouter and include dependency injection for database sessions and user authentication.
+Routes:
+    - GET /tasks: Retrieve all tasks with optional filtering, pagination, and search.
+    - GET /tasks/{id}: Retrieve a specific task by its ID.
+    - POST /tasks: Create a new task.
+    - DELETE /tasks/{id}: Delete a task by its ID.
+    - PUT /tasks/{id}: Update a task by its ID.
+Dependencies:
+    - db: Database session dependency.
+    - current_user: User authentication dependency.
+Models:
+    - models.Task: Task model representing a task in the database.
+    - models.User: User model representing a user in the database.
+Schemas:
+    - schemas.PaginatedTasksResponse: Response schema for paginated tasks.
+    - schemas.TaskResponse: Response schema for a single task.
+    - schemas.TaskCreate: Request schema for creating a new task.
+    - schemas.TaskUpdate: Request schema for updating an existing task.
+Exceptions:
+    - HTTPException: Raised for various HTTP errors, such as 404 Not Found and 403 Forbidden.
+"""
+
+from fastapi import Response, status, HTTPException, Depends, APIRouter, Query
 from .. import models, schemas, oauth2
 
 from ..database import get_db
 from sqlalchemy.orm import Session
 
 from typing import Optional
+from datetime import datetime, timezone
 
 router = APIRouter(
     prefix="/tasks",
@@ -19,12 +45,16 @@ router = APIRouter(
 async def get_tasks(db: Session = Depends(get_db),
                     limit: int = Query(10, gt=0),
                     page: int = Query(1, ge=1),
-                    search: Optional[str] = "",
+                    search: Optional[str] = Query(None),
                     current_user: models.User = Depends(oauth2.get_current_user)):
 
-    tasks = db.query(models.Task).filter(models.Task.title.ilike(f"%{search}%"),
-                                         models.Task.owner_id == current_user.id,
-                                         models.Task.is_deleted == False)
+    if search:
+        tasks = db.query(models.Task).filter(models.Task.title.ilike(f"%{search}%"),
+                                            models.Task.owner_id == current_user.id,
+                                            models.Task.is_deleted == False)
+    else:
+         tasks = db.query(models.Task).filter(models.Task.owner_id == current_user.id,
+                                            models.Task.is_deleted == False)
     
     total  = tasks.count()
     offset = limit * (page - 1) 
@@ -76,7 +106,7 @@ async def create_task(task: schemas.TaskCreate,
 @router.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_task(id: int,
                       db:Session = Depends(get_db),
-                      current_user: int = Depends(oauth2.get_current_user)):
+                      current_user: models.User = Depends(oauth2.get_current_user)):
     
     task_query = db.query(models.Task).filter(models.Task.id == id,
                                               models.Task.is_deleted == False)
@@ -101,7 +131,7 @@ async def delete_task(id: int,
 async def update_task(id: int,
                       task: schemas.TaskUpdate,
                       db:Session = Depends(get_db),
-                      current_user: int = Depends(oauth2.get_current_user)):
+                      current_user: models.User = Depends(oauth2.get_current_user)):
     
     task_query = db.query(models.Task).filter(models.Task.id == id,
                                               models.Task.is_deleted == False)
