@@ -48,6 +48,19 @@ class TaskBase(BaseModel):
         max_length=1000,
         description="Task description must be between 10 and 1000 characters"
     )
+    status: int = Field(
+        default=1,
+        ge=1,
+        le=3,
+        description="Task status must be between 1 and 3"
+    )
+    priority: int = Field(
+        default=5,
+        ge=1,
+        le=5,
+        description="Task priority must be between 1 and 5"
+    )
+
 
     @field_validator('title')
     def validate_title(cls, v):
