@@ -20,7 +20,7 @@ class UserResponse(UserBase):
     created_at: datetime
     
     class Config:
-        orm_mod = True
+        orm_mode = True
 
 # user login class
 class UserLogin(BaseModel):
@@ -91,7 +91,7 @@ class TaskResponse(TaskBase):
     created_at: datetime
     
     class Config:
-        orm_mod = True
+        orm_mode = True
 
 class PaginatedTaskResponse(BaseModel):
     data: List[TaskResponse]
