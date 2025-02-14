@@ -1,6 +1,6 @@
 from pydantic import BaseModel, EmailStr, Field, field_validator
-from datetime import datetime
-from typing import Annotated, Optional, List
+from datetime import datetime, timezone
+from typing import Optional, List
 
 
 # Define a models for request payload validation and serialization
@@ -83,11 +83,15 @@ class TaskBase(BaseModel):
 class TaskCreate(TaskBase):
     pass
 
+class TaskUpdate(TaskBase):
+    pass
+
 # task response class
 class TaskResponse(TaskBase):
     id:         int
     owner_id :  int
-    owner: UserResponse 
+    owner: UserResponse
+    last_modified_at : Optional[datetime] = None
     created_at: datetime
     
     class Config:

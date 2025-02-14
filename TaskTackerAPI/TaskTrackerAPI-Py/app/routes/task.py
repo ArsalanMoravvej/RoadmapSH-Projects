@@ -1,3 +1,4 @@
+from datetime import datetime, timezone
 from fastapi  import Response, status, HTTPException, Depends, APIRouter, Query
 from .. import models, schemas, oauth2
 
@@ -22,7 +23,8 @@ async def get_tasks(db: Session = Depends(get_db),
                     current_user: models.User = Depends(oauth2.get_current_user)):
 
     tasks = db.query(models.Task).filter(models.Task.title.ilike(f"%{search}%"),
-                                         models.Task.owner_id == current_user.id)
+                                         models.Task.owner_id == current_user.id,
+                                         models.Task.is_deleted == False)
     
     total  = tasks.count()
     offset = limit * (page - 1) 
@@ -41,7 +43,8 @@ async def get_task(id: int,
                    db: Session = Depends(get_db),
                    current_user: models.User = Depends(oauth2.get_current_user)):
 
-    task = db.query(models.Task).filter(models.Task.id == id).first()
+    task = db.query(models.Task).filter(models.Task.id == id,
+                                        models.Task.is_deleted == False).first()
     
     if not task:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
@@ -75,7 +78,8 @@ async def delete_task(id: int,
                       db:Session = Depends(get_db),
                       current_user: int = Depends(oauth2.get_current_user)):
     
-    task_query = db.query(models.Task).filter(models.Task.id == id)
+    task_query = db.query(models.Task).filter(models.Task.id == id,
+                                              models.Task.is_deleted == False)
     task_obj = task_query.first()
     
     if task_obj is None:
@@ -86,7 +90,8 @@ async def delete_task(id: int,
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
                             detail=f"Not authorized to perform requested action on task with ID: {id}.")
     
-    task_query.delete(synchronize_session=False)
+    task_query.update({"is_deleted": True, "deleted_at": datetime.now(timezone.utc)}, synchronize_session=False)
+
     db.commit()
     
     return Response(status_code=status.HTTP_204_NO_CONTENT)
@@ -94,11 +99,12 @@ async def delete_task(id: int,
 # Update a task given its ID
 @router.put("/{id}", response_model=schemas.TaskResponse)
 async def update_task(id: int,
-                      task: schemas.TaskCreate,
+                      task: schemas.TaskUpdate,
                       db:Session = Depends(get_db),
                       current_user: int = Depends(oauth2.get_current_user)):
     
-    task_query = db.query(models.Task).filter(models.Task.id == id)
+    task_query = db.query(models.Task).filter(models.Task.id == id,
+                                              models.Task.is_deleted == False)
     task_obj = task_query.first()
 
     if task_obj is None:
@@ -109,7 +115,10 @@ async def update_task(id: int,
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
                             detail=f"Not authorized to perform requested action on task with ID: {id}.")
 
-    task_query.update(task.model_dump(), synchronize_session=False)
+    task_query.update(
+        {**task.model_dump(), "last_modified_at": datetime.now(timezone.utc)},
+        synchronize_session=False
+    )
     
     db.commit()
 
