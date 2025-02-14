@@ -64,14 +64,14 @@ pip install -r requirements.txt
 Create a .env file in the root directory with the following content:
 
 ```env
-DATABASE_HOSTNAME=localhost
-DATABASE_PORT=5432
-DATABASE_NAME=tasktrackerapi
-DATABASE_USERNAME=postgres
-DATABASE_PASSWORD=new_password
-SECRET_KEY=your_secret_key
-ALGORITHM=HS256
-ACCESS_TOKEN_EXPIRATON_MINUTES=30
+DATABASE_HOSTNAME=The hostname of the database server.
+DATABASE_PORT=The port number on which the database server is listening.
+DATABASE_NAME=The name of the database to connect to.
+DATABASE_USERNAME=The username to use for database authentication.
+DATABASE_PASSWORD=The password to use for database authentication.
+SECRET_KEY=The secret key used for cryptographic operations.
+ALGORITHM=The algorithm used for token encoding.
+ACCESS_TOKEN_EXPIRATON_MINUTES=The duration (in minutes) for which the access token is valid.
 ```
 
 5. Run the database migrations:
