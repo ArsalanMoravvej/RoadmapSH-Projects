@@ -103,3 +103,9 @@ class PaginatedTasksResponse(BaseModel):
     page: int
     limit: int
 
+class TaskStatusUpdate(BaseModel):
+    status: int = Field(
+        ge=1,
+        le=3,
+        description="Task status must be between 1 and 3 (1: TODO, 2: IN_PROGRESS, 3: COMPLETED)"
+    )
