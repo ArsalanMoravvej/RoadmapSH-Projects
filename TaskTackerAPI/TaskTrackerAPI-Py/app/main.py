@@ -1,8 +1,18 @@
 from fastapi import FastAPI
 from .routes import user, auth, task
 
-#TaskTrackerAPI: Exercise app for roadmap.sh
+from fastapi.middleware.cors import CORSMiddleware
+
 app = FastAPI()
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],  # React dev server default port
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 app.include_router(user.router)
 app.include_router(auth.router)
